@@ -48,69 +48,74 @@ Understand:
 - What Must Pass and Should Pass items you need to satisfy
 - What the existing codebase looks like (if building on previous sprints)
 
-### 2. Plan your approach
+### 2. Discover project test infrastructure
 
-Before writing code, think through the implementation:
-- What files need to be created or modified?
-- What's the dependency order?
-- What's the riskiest part? (Do that first.)
+Before writing any code, understand how this project verifies correctness.
 
-Don't write this plan down — just think it through. The Sprint Contract is your plan.
+Explore the project for test configuration:
+- `package.json` scripts (build, test, lint, typecheck, dev)
+- Test framework config (jest.config, vitest.config, playwright.config, etc.)
+- Existing test files (*.test.*, *.spec.*, __tests__/)
+- CI config (.github/workflows, etc.) — shows what the project considers "must pass"
+- Linter/formatter config (.eslintrc, .prettierrc, tsconfig.json, etc.)
 
-### 3. Implement
+Record what you find — you'll use these commands throughout the sprint:
+- **Build command:** (e.g., `npm run build`, or none)
+- **Test command:** (e.g., `npm test`, `pytest`, or none)
+- **Lint command:** (e.g., `npm run lint`, or none)
+- **Type check command:** (e.g., `npx tsc --noEmit`, or none)
+- **Dev server command:** (e.g., `npm run dev`)
 
-Write the code. Follow existing project conventions:
+If the project has no test infrastructure at all, that's fine — skip to Step 3.
+
+### 3. Write tests first
+
+Translate the Sprint Contract items into code-level tests using the project's existing test framework.
+
+**What to test:**
+- Each Must Pass contract item that can be verified at the code level
+- API endpoints, data transformations, business logic
+- Not every contract item translates to a code test — some are purely visual/UX and that's the Evaluator's job
+
+**How to test:**
+- Use whatever test framework the project already has
+- If the project has no test framework, set one up that fits the stack (keep it minimal)
+- Place test files where the project convention expects them
+- Tests should fail now (nothing is implemented yet) — that's correct
+
+**What NOT to test at code level:**
+- "Page looks correct" — that's the Evaluator's domain
+- "User flow feels smooth" — can't be automated in a unit test
+- Layout, styling, visual hierarchy — browser-only
+
+### 4. Implement
+
+Write the code to make the tests pass. Follow existing project conventions:
 - Match the code style already in the project
 - Use existing components/utilities when available
 - Don't introduce new dependencies unless necessary
 
-**Priority order for each contract item:**
+**Priority order:**
 1. Must Pass items first, in dependency order
 2. Should Pass items second
 3. Nothing else — stay in scope
 
-### 4. Verify — the cheap feedback loop
+### 5. Verify
 
-Before handing off to the Evaluator (which is expensive — browser automation), run every cheap check yourself. These catch 80% of issues in seconds, not minutes.
+Before handing off to the Evaluator, run every check the project has. The Evaluator is expensive — browser automation. These checks are cheap and fast.
 
-**Run in this order. Stop and fix on any failure before moving to the next.**
+**Run whatever the project provides, in this order:**
 
-#### 4a. Build check
-```bash
-npm run build  # or the project's build command
-```
-If the project has no build step, skip. But if it does, a build failure means nothing works.
+1. **Build** — if the project has a build command, run it. Fix any errors.
+2. **Lint + type check** — if the project has these configured, run them. Fix every error. Don't suppress with `// @ts-ignore` or `eslint-disable`.
+3. **Tests** — run the project's test command. Your new tests and existing tests must both pass.
+   - Tests you broke → fix your code
+   - Tests that were already broken before your changes → note it, don't fix (out of scope)
+4. **Dev server** — restart it clean. Verify it's reachable at the expected URL.
 
-#### 4b. Lint + type check
-```bash
-npm run lint        # if available
-npx tsc --noEmit    # if TypeScript
-```
-Fix every error. Don't suppress with `// @ts-ignore` or `eslint-disable` — that hides problems the Evaluator will find anyway.
+**Stop and fix on any failure before moving to the next check.** Only signal "Implementation complete" after all available checks pass.
 
-#### 4c. Run existing tests
-```bash
-npm test  # or the project's test command
-```
-If the project has a test suite, run it. If tests fail:
-- Tests you broke → fix your code
-- Tests that were already broken → note it, don't fix (out of scope)
-- No test suite → skip
-
-#### 4d. Dev server starts clean
-```bash
-# Restart the dev server to verify a clean start
-npm run dev &
-curl -s -o /dev/null -w "%{http_code}" {app_url}
-```
-A 200 response means the server is up. Anything else means something is broken.
-
-#### 4e. Quick sanity check
-Walk through each Must Pass item mentally — would a user be able to complete the flow? If you're unsure about any item, it's probably not ready.
-
-**Only signal "Implementation complete" after all checks pass.** The Evaluator's job is to find user-facing issues that code-level checks can't catch — don't waste it on build failures and type errors.
-
-### 5. Handle evaluation feedback
+### 6. Handle evaluation feedback
 
 When you receive eval results:
 
@@ -121,9 +126,9 @@ When you receive eval results:
    - Check the **Console errors** if any
 3. Fix the issues — target the specific symptoms described
 4. Don't over-fix. If a Must Pass item failed because of a missing click handler, add the click handler. Don't refactor the component.
-5. **Re-run Step 4 (Verify)** — build, lint, type check, tests, dev server. Don't send broken code back to the Evaluator.
+5. **Re-run Step 5 (Verify)** — all project checks must still pass. Don't send broken code back to the Evaluator.
 
-### 6. Signal completion
+### 7. Signal completion
 
 When you believe the implementation is ready for evaluation (or re-evaluation after fixes), clearly state:
 > "Implementation complete. Ready for evaluation."
@@ -145,17 +150,18 @@ This signals the orchestrator to run the Evaluator.
 ## Feedback loop behavior
 
 ```
-Round 1: Implement from scratch → signal ready
+Round 1:
+  discover test infra → write tests → implement → verify (all project checks) → signal ready
   ↓ Evaluator runs
   → PASS → done
-  → FAIL → read eval, fix issues → signal ready
+  → FAIL → read eval, fix issues, re-verify → signal ready
 
-Round 2: Targeted fixes → signal ready
+Round 2: Targeted fixes only
   ↓ Evaluator runs
   → PASS → done
-  → FAIL → read eval, fix remaining issues → signal ready
+  → FAIL → read eval, fix remaining, re-verify → signal ready
 
-Round 3: Final fixes → signal ready
+Round 3: Final fixes
   ↓ Evaluator runs
   → PASS → done
   → FAIL → escalate (spec likely needs rethinking)
