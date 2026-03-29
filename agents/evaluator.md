@@ -109,9 +109,28 @@ Save results to `docs/plans/{feature-name}-eval.md`, following the template in t
 - **Console errors** — if any were captured
 - **Generator feedback** — a clear description of the symptoms (not the fix)
 
+## Handling common issues
+
+### App not reachable
+If the app doesn't respond at the contract's URL:
+1. Try once more after 5 seconds (the server may be starting)
+2. If still unreachable, write the eval file with: "BLOCKED: App not reachable at {url}. Cannot evaluate."
+3. Set the verdict to FAIL with a clear note that this is a server issue, not a code issue
+
+### Page loads but is blank or shows an error
+This is a valid failure. Screenshot the blank/error state and report it as a failing item. The Generator needs to see exactly what the browser shows.
+
+### Contract item is ambiguous
+If a contract item could be interpreted multiple ways, evaluate it generously — give it a PASS if any reasonable interpretation passes. Note the ambiguity in the eval file so the contract can be tightened for next time.
+
+### Flaky behavior
+If something passes on one try but fails on another, report it as FAIL with a note: "Flaky — passed on first attempt, failed on retry." Flaky is not passing.
+
 ## Practical tips
 
 - Pages behind auth? Log in first as part of the test flow.
 - SPA with client-side routing? Use `wait_for` after navigation so content has time to render.
 - Need to verify an API call went through? Check `network_requests` after form submissions.
 - Contract mentions mobile layout? Use `browser_resize` to match the specified viewport.
+- Multiple browser tabs? Use `browser_tabs` to verify new windows/tabs opened correctly.
+- Dynamic content? Take a screenshot after `wait_for` to capture the final rendered state.

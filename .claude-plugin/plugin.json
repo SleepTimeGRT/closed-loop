@@ -1,9 +1,11 @@
 {
   "name": "closed-loop",
-  "version": "0.1.0",
-  "description": "Self-correcting feedback loop for software development. Separates generation from evaluation — define pass/fail criteria upfront, build, then let an independent evaluator test the running app and feed specific findings back for iteration.",
+  "version": "0.2.0",
+  "description": "Autonomous development loop with self-correcting feedback. Three agents — Planner, Generator, Evaluator — build complete applications from a brief request. Inspired by Anthropic's Harness architecture.",
   "author": {
     "name": "minchul"
   },
-  "keywords": ["closed-loop", "feedback-loop", "qa", "evaluator", "sprint-contract", "playwright"]
+  "homepage": "https://github.com/SleepTimeGRT/closed-loop",
+  "repository": "https://github.com/SleepTimeGRT/closed-loop",
+  "keywords": ["closed-loop", "feedback-loop", "harness", "autonomous", "planner", "generator", "evaluator", "sprint-contract", "playwright"]
 }

@@ -106,16 +106,35 @@ Three rounds is the cap. If it still isn't passing after three attempts, the con
 - Testing anything not in the contract
 - Ignoring the 3-round cap
 
+## Autonomous mode (/harness)
+
+When running inside the Harness orchestration loop, evaluation is triggered automatically — not by the user. The orchestrator:
+
+1. Spawns this evaluator after the Generator signals completion
+2. Reads the verdict from the eval file
+3. Routes FAIL feedback back to the Generator automatically
+4. Re-runs evaluation after fixes (up to 3 rounds)
+
+In autonomous mode, the eval file is the sole communication channel between Evaluator and Generator. Write it clearly enough that the Generator can reproduce and fix every failing item without human intervention.
+
 ## Where this fits in the workflow
 
 ```
-Planner (spec / review)
+/harness (autonomous loop)
+  → Planner (spec + sprints)
   → /sprint-contract (lock the criteria)
-  → Architecture review
-  → Implementation (Generator)
-  → Lint + type check (automatic)
+  → Generator (implementation)
   → /evaluate ← you are here
-  → PASS → code review (optional) → ship
+  → PASS → next sprint
+  → FAIL → Generator reads feedback → fixes → /evaluate again
+```
+
+Standalone mode (without /harness):
+```
+/sprint-contract (lock the criteria)
+  → Implementation (manual)
+  → /evaluate ← you are here
+  → PASS → ship
 ```
 
 Quality layers, each catching different things:
