@@ -137,11 +137,13 @@ Standalone mode (without /harness):
   → PASS → ship
 ```
 
-Quality layers, each catching different things:
+Quality layers — cheap checks first, expensive checks last:
 
-| Layer | Tool | What it catches |
-|-------|------|-----------------|
-| 1 | Lint + type check | Syntax, type errors |
-| 2 | /evaluate | Broken user flows, UX issues |
-| 3 | Code review | Structural problems, maintainability |
-| 4 | E2E test suite | Regressions in existing features |
+| Layer | Tool | Who | Cost |
+|-------|------|-----|------|
+| 1 | Build + lint + type check | Generator (self-check) | Seconds, free |
+| 2 | Existing test suite | Generator (self-check) | Seconds–minutes, free |
+| 3 | **/evaluate** | **Evaluator (browser QA)** | **Minutes, expensive** |
+| 4 | Code review | Human or separate agent | Variable |
+
+The Generator must pass layers 1-2 before handing off to the Evaluator. This keeps evaluation focused on user-facing issues that code-level checks can't catch.

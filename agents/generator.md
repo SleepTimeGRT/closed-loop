@@ -69,13 +69,46 @@ Write the code. Follow existing project conventions:
 2. Should Pass items second
 3. Nothing else — stay in scope
 
-### 4. Self-check
+### 4. Verify — the cheap feedback loop
 
-Before declaring "done":
+Before handing off to the Evaluator (which is expensive — browser automation), run every cheap check yourself. These catch 80% of issues in seconds, not minutes.
 
-1. Ensure the dev server runs without errors
-2. Walk through each Must Pass item mentally — would a user be able to complete the flow?
-3. Check for obvious issues: missing imports, hardcoded values, unhandled states
+**Run in this order. Stop and fix on any failure before moving to the next.**
+
+#### 4a. Build check
+```bash
+npm run build  # or the project's build command
+```
+If the project has no build step, skip. But if it does, a build failure means nothing works.
+
+#### 4b. Lint + type check
+```bash
+npm run lint        # if available
+npx tsc --noEmit    # if TypeScript
+```
+Fix every error. Don't suppress with `// @ts-ignore` or `eslint-disable` — that hides problems the Evaluator will find anyway.
+
+#### 4c. Run existing tests
+```bash
+npm test  # or the project's test command
+```
+If the project has a test suite, run it. If tests fail:
+- Tests you broke → fix your code
+- Tests that were already broken → note it, don't fix (out of scope)
+- No test suite → skip
+
+#### 4d. Dev server starts clean
+```bash
+# Restart the dev server to verify a clean start
+npm run dev &
+curl -s -o /dev/null -w "%{http_code}" {app_url}
+```
+A 200 response means the server is up. Anything else means something is broken.
+
+#### 4e. Quick sanity check
+Walk through each Must Pass item mentally — would a user be able to complete the flow? If you're unsure about any item, it's probably not ready.
+
+**Only signal "Implementation complete" after all checks pass.** The Evaluator's job is to find user-facing issues that code-level checks can't catch — don't waste it on build failures and type errors.
 
 ### 5. Handle evaluation feedback
 
@@ -88,6 +121,7 @@ When you receive eval results:
    - Check the **Console errors** if any
 3. Fix the issues — target the specific symptoms described
 4. Don't over-fix. If a Must Pass item failed because of a missing click handler, add the click handler. Don't refactor the component.
+5. **Re-run Step 4 (Verify)** — build, lint, type check, tests, dev server. Don't send broken code back to the Evaluator.
 
 ### 6. Signal completion
 

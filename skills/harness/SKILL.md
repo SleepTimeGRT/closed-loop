@@ -108,10 +108,15 @@ Use the Agent tool:
 
     {If sprint > 1: "This builds on previous sprints. Read the existing codebase first."}
 
-    Implement all contract items. Signal completion when done.
+    Implement all contract items. Before signaling completion, you MUST pass
+    your self-verification checklist: build, lint, type check, existing tests,
+    and dev server health. Only signal "Implementation complete" after all
+    checks pass.
 ```
 
 If the Generator fails to produce output (timeout, error), report to the user and ask how to proceed.
+
+**Why the Generator verifies first:** The Evaluator is expensive — it launches a browser and clicks through the app. Build failures, type errors, and broken tests are cheap to catch. The Generator's self-check gate ensures the Evaluator only spends time on user-facing issues that code-level checks can't find.
 
 #### Step 3: Run the Evaluator
 
