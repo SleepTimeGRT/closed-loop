@@ -1,6 +1,6 @@
 {
   "name": "closed-loop",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Autonomous development loop with self-correcting feedback. Three agents — Planner, Generator, Evaluator — build complete applications from a brief request. Inspired by Anthropic's Harness architecture.",
   "author": {
     "name": "minchul"
