@@ -2,7 +2,7 @@
 
 A Claude Code plugin that builds complete applications through a self-correcting feedback loop. Instead of relying on a single agent to both build and judge its own work, Closed Loop separates **generation** from **evaluation** — the same insight behind code review, but automated and structured.
 
-Inspired by [Anthropic's Harness architecture](https://www.anthropic.com/engineering/harness-design-long-running-apps) for long-running autonomous development.
+Inspired by [Anthropic's Harness architecture](https://www.anthropic.com/engineering/start-loop-design-long-running-apps) for long-running autonomous development.
 
 ## The problem
 
@@ -70,7 +70,7 @@ claude plugin:add --url https://github.com/SleepTimeGRT/closed-loop
 ### 2. Full autonomous loop
 
 ```
-/harness
+/start-loop
 > Build a recipe sharing app where users can post recipes with photos,
 > search by ingredient, and save favorites.
 ```
@@ -99,7 +99,7 @@ This is useful when you're coding manually and just want the evaluation loop —
 
 ## Example: what the files look like
 
-After running `/harness`, your `docs/plans/` directory contains:
+After running `/start-loop`, your `docs/plans/` directory contains:
 
 ```
 docs/plans/
@@ -167,10 +167,10 @@ The image src contains "undefined" instead of the actual file path.
 
 | Component | File | Purpose |
 |-----------|------|---------|
-| `/harness` command | `commands/harness.md` | Entry point for autonomous development loop |
+| `/start-loop` command | `commands/start-loop.md` | Entry point for autonomous development loop |
 | `/sprint-contract` command | `commands/sprint-contract.md` | Entry point for creating a contract |
 | `/evaluate` command | `commands/evaluate.md` | Entry point for running an evaluation |
-| Harness skill | `skills/harness/` | Full orchestration — planner → generator ↔ evaluator |
+| Start Loop skill | `skills/start-loop/` | Full orchestration — planner → generator ↔ evaluator |
 | Sprint Contract skill | `skills/sprint-contract/` | Detailed guide for writing good contracts |
 | Evaluate skill | `skills/evaluate/` | Full evaluation procedure, templates, examples |
 | Planner agent | `agents/planner.md` | Spec expansion + sprint decomposition |
@@ -180,10 +180,10 @@ The image src contains "undefined" instead of the actual file path.
 ## Troubleshooting
 
 **"No Sprint Contract found"**
-Run `/sprint-contract` first, or use `/harness` which creates contracts automatically.
+Run `/sprint-contract` first, or use `/start-loop` which creates contracts automatically.
 
 **Evaluator can't reach the app**
-Make sure your dev server is running. The Generator starts it automatically in `/harness` mode, but in standalone `/evaluate` mode, you need to start it yourself.
+Make sure your dev server is running. The Generator starts it automatically in `/start-loop` mode, but in standalone `/evaluate` mode, you need to start it yourself.
 
 **Sprint keeps failing after 3 rounds**
 The problem is likely in the contract or spec, not the code. Options:
@@ -195,7 +195,7 @@ The problem is likely in the contract or spec, not the code. Options:
 This shouldn't happen — the Evaluator is scoped to contract items only. If it does, the contract may be ambiguous. Tighten the wording.
 
 **Want to resume after a session died?**
-The `docs/plans/` files are the durable state. Start a new session and run `/harness` — it will detect existing files and offer to resume from the last completed sprint.
+The `docs/plans/` files are the durable state. Start a new session and run `/start-loop` — it will detect existing files and offer to resume from the last completed sprint.
 
 ## Design decisions
 
@@ -211,4 +211,4 @@ The `docs/plans/` files are the durable state. Start a new session and run `/har
 
 ## Reference
 
-- [Harness: designing agents for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) — the Anthropic engineering blog post that inspired this plugin's architecture.
+- [Harness: designing agents for long-running application development](https://www.anthropic.com/engineering/start-loop-design-long-running-apps) — the Anthropic engineering blog post that inspired this plugin's architecture.

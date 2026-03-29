@@ -1,15 +1,16 @@
 ---
-name: harness
+name: start-loop
 description: |
   Autonomous development loop that builds complete applications from a brief request.
   Three agents — Planner, Generator, Evaluator — run in a self-correcting feedback loop.
-  Use when the user says "harness", "build this", "make this app", "autonomous build",
-  "full build", "build from scratch", or describes an application they want built end-to-end.
-  Also triggers when the user provides a 1-4 sentence app description and expects a complete,
-  working result. This is the main entry point for long-running autonomous development.
+  Use when the user says "start loop", "start-loop", "build this", "make this app",
+  "autonomous build", "full build", "build from scratch", or describes an application
+  they want built end-to-end. Also triggers when the user provides a 1-4 sentence app
+  description and expects a complete, working result.
+  This is the main entry point for long-running autonomous development.
 ---
 
-# Harness — Autonomous Development Loop
+# Start Loop — Autonomous Development Cycle
 
 Build complete, working applications from a brief request. Three agents — Planner, Generator, Evaluator — coordinate through file-based communication in an autonomous feedback loop.
 
@@ -209,7 +210,7 @@ This is intentional. File-based communication creates an audit trail — you can
 
 ## Existing codebase
 
-When running `/harness` on a project that already has code:
+When running `/start-loop` on a project that already has code:
 
 1. **Planner must explore first.** The Planner agent reads the existing codebase (tech stack, patterns, data models) before writing the spec. The spec should build on what exists, not start from scratch.
 

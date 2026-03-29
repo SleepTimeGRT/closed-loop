@@ -19,7 +19,7 @@ Done:
 - evaluator.md — Playwright 브라우저 QA
 
 ### Sprint 2: Harness orchestration 검증 ✅
-**Goal:** `/harness` 커맨드가 실제로 planner → generator ↔ evaluator 루프를 오케스트레이션할 수 있는 수준
+**Goal:** `/start-loop` 커맨드가 실제로 planner → generator ↔ evaluator 루프를 오케스트레이션할 수 있는 수준
 
 **Depends on:** Sprint 1
 
@@ -43,12 +43,12 @@ Done:
 - Evaluator agent: 앱 미응답, 빈 페이지, 모호한 계약, flaky 동작 대응 추가
 
 ### Sprint 4: Documentation & examples ✅
-**Goal:** 새 사용자가 README만 읽고 바로 `/harness`를 실행할 수 있는 수준
+**Goal:** 새 사용자가 README만 읽고 바로 `/start-loop`를 실행할 수 있는 수준
 
 **Depends on:** Sprint 3
 
 Done:
-- README에 Quick start (설치 → /harness 실행 → 자동 진행 흐름 설명)
+- README에 Quick start (설치 → /start-loop 실행 → 자동 진행 흐름 설명)
 - 실제 프롬프트 예시: 레시피 공유 앱 시나리오
 - docs/plans/ 디렉토리 구조 예시
 - Sprint contract 예시 (Must/Should/Won't Test)

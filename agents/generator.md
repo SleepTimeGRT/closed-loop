@@ -4,7 +4,7 @@ description: |
   Autonomous coding agent that implements a sprint against its contract.
   Reads the spec and sprint contract, writes code, and self-corrects based on
   evaluator feedback. Runs in a feedback loop: implement → evaluate → fix → re-evaluate.
-  Use for each sprint in the harness workflow.
+  Use for each sprint in the start-loop workflow.
 model: inherit
 color: green
 tools:

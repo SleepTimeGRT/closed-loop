@@ -106,7 +106,7 @@ Three rounds is the cap. If it still isn't passing after three attempts, the con
 - Testing anything not in the contract
 - Ignoring the 3-round cap
 
-## Autonomous mode (/harness)
+## Autonomous mode (/start-loop)
 
 When running inside the Harness orchestration loop, evaluation is triggered automatically — not by the user. The orchestrator:
 
@@ -120,7 +120,7 @@ In autonomous mode, the eval file is the sole communication channel between Eval
 ## Where this fits in the workflow
 
 ```
-/harness (autonomous loop)
+/start-loop (autonomous loop)
   → Planner (spec + sprints)
   → /sprint-contract (lock the criteria)
   → Generator (implementation)
@@ -129,7 +129,7 @@ In autonomous mode, the eval file is the sole communication channel between Eval
   → FAIL → Generator reads feedback → fixes → /evaluate again
 ```
 
-Standalone mode (without /harness):
+Standalone mode (without /start-loop):
 ```
 /sprint-contract (lock the criteria)
   → Implementation (manual)
