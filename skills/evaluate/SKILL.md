@@ -27,7 +27,9 @@ The rules that make this work:
 
 ## Running an evaluation
 
-### 1. Find the contract
+### 1. Find the contract (orchestrator step)
+
+These first two steps are performed by the orchestrator (or you, if running standalone) — not by the evaluator subagent.
 
 ```bash
 find docs/plans/ -name "*-contract.md" 2>/dev/null
@@ -36,7 +38,7 @@ find docs/plans/ -name "*-contract.md" 2>/dev/null
 If there's no contract, stop here:
 > "No Sprint Contract found. Create one with `/sprint-contract` before evaluating."
 
-### 2. Check prerequisites
+### 2. Check prerequisites (orchestrator step)
 
 Make sure the app is actually running at the URLs the contract specifies:
 
@@ -47,7 +49,7 @@ curl -s -o /dev/null -w "%{http_code}" {app-url}  # URL from the sprint contract
 If it's not up, stop:
 > "The app isn't running. Start the dev server and try again."
 
-### 3. Test with Playwright MCP
+### 3. Test with Playwright MCP (evaluator subagent)
 
 Hand this off to the evaluator agent (`closed-loop:evaluator`) — a subagent scoped to Playwright MCP browser tools only, with no access to source code files. Invoke it via the Agent tool with `subagent_type: "closed-loop:evaluator"`.
 

@@ -1,9 +1,11 @@
 ---
 name: start-loop
+version: 0.1.0
 description: |
   Autonomous development loop that builds complete applications from a brief request.
   Three agents — Planner, Generator, Evaluator — run in a self-correcting feedback loop.
-  Use when the user says "start loop", "start-loop", "build this", "make this app",
+  This skill should be used when the user says "start loop", "start-loop", "build this",
+  "make this app", "build it for me", "create this app", "implement this",
   "autonomous build", "full build", "build from scratch", or describes an application
   they want built end-to-end. Also triggers when the user provides a 1-4 sentence app
   description and expects a complete, working result.

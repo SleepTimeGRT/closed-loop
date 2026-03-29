@@ -1,10 +1,12 @@
 ---
 name: upgrade
+version: 0.1.0
 description: |
   Upgrade the closed-loop plugin to the latest version. Detects the install
-  location, runs the update, and shows what changed. Use when asked to
-  "upgrade closed-loop", "update closed-loop", "get latest version", or when
-  the session start hook outputs UPGRADE_AVAILABLE.
+  location, runs the update, and shows what changed. This skill should be used
+  when the user says "upgrade closed-loop", "update closed-loop", "update plugin",
+  "get latest version", "check for updates", "new version", "is there an update".
+  Also triggers when the session start hook outputs UPGRADE_AVAILABLE.
 ---
 
 # Upgrade closed-loop
