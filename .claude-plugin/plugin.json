@@ -1,0 +1,9 @@
+{
+  "name": "closed-loop",
+  "version": "0.1.0",
+  "description": "Self-correcting feedback loop for software development. Separates generation from evaluation — define pass/fail criteria upfront, build, then let an independent evaluator test the running app and feed specific findings back for iteration.",
+  "author": {
+    "name": "minchul"
+  },
+  "keywords": ["closed-loop", "feedback-loop", "qa", "evaluator", "sprint-contract", "playwright"]
+}
