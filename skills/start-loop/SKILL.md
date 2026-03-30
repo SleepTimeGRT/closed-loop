@@ -70,6 +70,8 @@ After the Planner finishes, read `docs/plans/spec.md` and present the sprint sum
 - Key features per sprint
 - Out of scope items
 
+**If extending an existing spec**, the Planner will check for conflicts between new and existing features. Review any conflicts it surfaces before approving.
+
 **Get user sign-off before proceeding.** If the user wants changes, re-run the Planner with the feedback. Once approved, the spec is frozen.
 
 ### Phase 2: Sprint execution loop

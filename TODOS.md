@@ -48,12 +48,8 @@
 - validation rules, constants, enums, security rules, API contracts 탐색
 - generic하게 구현 (특정 프레임워크 이름 대신 패턴 기반)
 
-### e. 스프린트 간 통합 테스트 (삼행시 + 마니또 공통)
-- 각 스프린트 단위 테스트는 통과하지만, 전체 플로우 E2E 검증이 없음
-- 5+ 스프린트 프로젝트에서 중간(또는 마지막)에 통합 테스트 스프린트 삽입
-- Planner가 스프린트 분해 시 "통합 테스트 스프린트" 자동 포함하도록 가이드
-**Effort:** S (CC: ~15min, planner.md + start-loop SKILL.md 수정)
-**Source:** `docs/reviews/toss-samhaengsi-2026-03-30.md`, `docs/reviews/toss-manito-2026-03-30.md`
+### e. 스프린트 간 통합 테스트 ✅ 완료 (Planner sprint sizing guide에 추가)
+- 5+ 스프린트 시 통합 테스트 스프린트 자동 포함 가이드
 
 ### f. Planner: 기존 코드의 validation/enum/제약 필수 읽기 ✅ 완료 (d와 통합, Step 2.5)
 - d와 동일한 Step 2.5에서 처리됨
@@ -62,12 +58,9 @@
 - 서버/런타임 로그 확인, 데이터 샘플링, 디버그 로깅 단계 추가
 - generic하게 구현 (에뮬레이터/docker/프레임워크 로그 모두 커버)
 
-### h. 스펙 변경 시 자동 충돌 검사 (마니또 피드백)
-- v2 스펙 추가 시 기존 스펙과 충돌을 유저가 수동으로 요청해야 발견
-- 스펙 변경/추가 시 기존 spec.md와의 충돌을 자동 검사하는 단계 추가
-- 특히 인터페이스 변경(missions[] → missionCount), 타이밍 변경(3초→5초) 감지
-**Effort:** M (CC: ~30min, planner.md + start-loop SKILL.md 수정)
-**Source:** `docs/reviews/toss-manito-2026-03-30.md`
+### h. 스펙 변경 시 자동 충돌 검사 ✅ 완료 (Planner에 "Spec conflict check" 섹션 추가)
+- 기존 spec과 새 feature의 인터페이스/타이밍/네이밍 충돌 검사
+- 충돌 발견 시 유저에게 제시 후 진행
 
 ## P3 — /progress 커맨드 + Dependency Visualization
 

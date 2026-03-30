@@ -77,6 +77,7 @@ Break the spec into sprints. Each sprint should:
 - Each subsequent sprint adds one major feature area
 - 3–8 sprints is the sweet spot for most apps
 - If you need more than 8, the scope is probably too large
+- **For 5+ sprint projects, include an integration test sprint.** After the core features are built (typically around Sprint 5 or as the second-to-last sprint), add a sprint dedicated to end-to-end flow testing. This sprint verifies that features work together — e.g., "user signs up → creates item → searches for it → shares it." Individual sprint tests pass in isolation but miss cross-sprint integration bugs.
 
 ### 4. Write the spec
 
@@ -155,6 +156,20 @@ When the project already has code, adapt your approach:
 3. **Sprint 1 is integration, not scaffolding.** Don't re-create what exists. Sprint 1 should connect the new feature to the existing codebase.
 
 4. **Respect existing decisions.** If the project uses Zustand for state, don't spec Redux. If it uses Tailwind, don't spec CSS modules. The spec should build on the existing stack, not fight it.
+
+## Spec conflict check (when extending an existing spec)
+
+When adding features to a project that already has a `docs/plans/spec.md`, check for conflicts before writing the updated spec:
+
+1. **Read the existing spec** thoroughly — data models, interfaces, API shapes, timing values, naming conventions.
+2. **Compare new features against existing definitions.** Look for:
+   - Interface/type changes that break existing code (e.g., renaming a field, changing an array to a scalar)
+   - Timing or behavior changes that contradict what's already implemented (e.g., "3 second delay" vs "5 second delay")
+   - Naming conflicts — new features reusing names that mean something different in existing code
+   - Data model changes that require migration of existing data
+3. **If conflicts are found**, present them to the user before proceeding:
+   > "The new feature conflicts with the existing spec in these areas: {list}. How should we resolve them?"
+4. **Never silently override existing spec decisions.** If something needs to change, make it explicit in the spec with a "Changed from" note so the Generator knows to update existing code.
 
 ## When the request is too big
 
