@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0
+
+- **Generator: strict TDD** — RED→GREEN hard gate, no broken tests allowed, verification evidence required
+- **Generator: failure diagnostics** — check server/runtime logs and sample real data before guessing at fixes
+- **Planner: constraint discovery** — auto-discover validation rules, enums, length limits, security rules before sprint decomposition
+- **Planner: spec conflict check** — detect interface/timing/naming conflicts when extending existing specs
+- **Planner: integration test sprint** — auto-include E2E flow testing sprint for 5+ sprint projects
+- **Evaluator: environment preflight** — distinguish environment issues from code bugs, report clearly
+- **Evaluator: screenshot management** — screenshots saved to `docs/plans/screenshots/`, not project root
+- **Plugin review fixes** — MIT LICENSE, consistent skill descriptions, version fields, trigger phrases
+- **Auto-update system** — SessionStart hook checks GitHub for new versions, `/upgrade` command
+
 ## 0.3.0
 
 - Renamed `/harness` to `/start-loop` for clearer naming
