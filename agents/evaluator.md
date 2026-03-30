@@ -126,6 +126,12 @@ If a contract item could be interpreted multiple ways, evaluate it generously â€
 ### Flaky behavior
 If something passes on one try but fails on another, report it as FAIL with a note: "Flaky â€” passed on first attempt, failed on retry." Flaky is not passing.
 
+## Screenshot management
+
+Save all screenshots to `docs/plans/screenshots/`, not the project root. Create the directory if it doesn't exist.
+
+Name screenshots descriptively: `sprint-{N}-{item}-{pass|fail}.png` (e.g., `sprint-2-signup-fail.png`).
+
 ## Practical tips
 
 - Pages behind auth? Log in first as part of the test flow.

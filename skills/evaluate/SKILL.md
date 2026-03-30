@@ -40,14 +40,23 @@ If there's no contract, stop here:
 
 ### 2. Check prerequisites (orchestrator step)
 
-Make sure the app is actually running at the URLs the contract specifies:
+Before spawning the evaluator, verify the environment is ready. This catches problems that look like code bugs but are actually infrastructure issues.
 
+**Required checks:**
 ```bash
-curl -s -o /dev/null -w "%{http_code}" {app-url}  # URL from the sprint contract
+# App reachable?
+curl -sf -o /dev/null {app-url}  # URL from the sprint contract
 ```
 
-If it's not up, stop:
-> "The app isn't running. Start the dev server and try again."
+If the app is unreachable, stop:
+> "Cannot evaluate: app not reachable at {app-url}. This is an environment issue, not a code bug. Start the dev server and retry."
+
+**If the contract requires authentication or external services** (login, email, payment sandbox, etc.), verify those are accessible too. Check relevant endpoints or services before proceeding.
+
+If any external dependency is down, report as an ENVIRONMENT issue:
+> "Cannot evaluate: {service} unreachable. This is an environment issue, not a code bug. Fix the environment and retry."
+
+Do NOT proceed with evaluation if the app is unreachable. Do NOT report environment failures as FAIL on contract items.
 
 ### 3. Test with Playwright MCP (evaluator subagent)
 

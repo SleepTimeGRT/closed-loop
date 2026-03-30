@@ -187,6 +187,24 @@ echo "Dev server:" && curl -s -o /dev/null -w "%{http_code}" {app_url}
 
 **Only after ALL checks are green, signal completion.** If you cannot get a test to pass and believe the test itself is wrong, delete the test and explain why in your completion message. Never leave a failing test.
 
+### 5g. When tests fail: diagnose before fixing
+
+Don't guess. Gather evidence:
+
+1. **Read the error output carefully.** The test runner usually says exactly what failed and where.
+
+2. **Check server/runtime logs.** Opaque errors like INTERNAL, 500, or timeout often have a real cause hidden in logs:
+   - Terminal where the dev server is running
+   - Emulator or container console output
+   - Framework log files (e.g., `logs/`, `.log` files)
+   - `docker logs` if containerized
+
+3. **Sample real data before writing queries.** Schema alone doesn't tell you data patterns. Before writing search/filter logic, query a few real rows to understand: exact vs partial match needs, null prevalence, value formats, casing conventions.
+
+4. **If the error is still opaque after logs,** add temporary debug logging at the failure point, re-run the test, read the output, then remove the debug code after fixing.
+
+Never signal completion with a test you "couldn't figure out." Diagnose or delete with justification.
+
 ### 6. Handle evaluation feedback
 
 When you receive eval results:

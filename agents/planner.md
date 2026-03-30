@@ -50,6 +50,21 @@ ls -la
 
 If starting from scratch, choose a tech stack that fits the request. Default to what's simplest.
 
+### 2.5. Discover constraints and rules
+
+Before decomposing sprints, understand the project's existing constraints. This prevents Generator failures from unknown validation rules, enum mismatches, or data format assumptions.
+
+Search for:
+- **Validation rules** — files like `validators.*`, `schema.*`, `rules.*`, zod/yup schemas, form validation logic
+- **Constants and enums** — `constants.*`, `enums.*`, `types.*`, `config.*`, or equivalent
+- **Length limits, required fields, allowed values** — check model definitions, database schemas, API contracts
+- **Security rules** — firestore.rules, RLS policies, middleware auth, RBAC definitions
+- **API contracts** — `.openapi`, `.graphql`, type definitions, interface files
+
+For each constraint found, note it in the spec's "Existing Architecture" section. Include specifics: field length limits, enum values (exact casing matters), required relationships, and any non-obvious business rules.
+
+If the project has no discoverable constraints (greenfield), note that and proceed.
+
 ### 3. Decompose into sprints
 
 Break the spec into sprints. Each sprint should:
